@@ -76,9 +76,11 @@
   <ItemGroup>
     <ClCompile Include="CapturePresentation.cpp" />
     <ClCompile Include="CapturePresentationComp.cpp" />
+    <ClCompile Include="ImageDataCom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CapturePresentation.h" />
+    <ClInclude Include="ImageDataCom.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

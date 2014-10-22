@@ -266,13 +266,24 @@ class CapturePresentation
 
  private:
   
+	/**
+	*@brief スクリーンキャプチャ開始
+	* @return ci 成功ならtrue、失敗ならfalse
+	*/
   bool InitWindowCapture();
+
+  /**
+	*@brief スクリーンキャプチャ終了
+	* @return ci 成功ならtrue、失敗ならfalse
+	*/
   bool ExitWindowCapture();
 
   
 
   std::string windowtype;	/**<　@brief  */
-  int scale;
+  int scale;	/**<　@brief  */
+  std::string m_string_encode;	/**<　@brief  */
+  int m_int_encode_quality;	/**<　@brief  */
   
 
   

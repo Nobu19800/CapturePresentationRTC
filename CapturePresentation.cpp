@@ -8,6 +8,7 @@
  */
 
 #include "CapturePresentation.h"
+#include "ImageDataCom.h"
 
 // Module specification
 // <rtc-template block="module_spec">
@@ -30,6 +31,16 @@ static const char* capturepresentation_spec[] =
 	"conf.__widget__.scale", "spin",
     "conf.__constraints__.windowtype", "(Desktop, ActiveWindow)",
 	"conf.__constraints__.scale", "1<=x<=100",
+	// Configuration variables
+	"conf.default.string_encode", "off",
+	"conf.default.int_encode_quality", "75",
+    // Widget
+	"conf.__widget__.string_encode", "radio",
+	"conf.__widget__.int_encode_quality", "spin",
+    // Constraints
+	"conf.__constraints__.string_encode", "(off,jpeg,png)",
+	"conf.__constraints__.int_encode_quality", "1<=x<=100",
+
     ""
   };
 // </rtc-template>
@@ -75,6 +86,8 @@ RTC::ReturnCode_t CapturePresentation::onInitialize()
 
   bindParameter("windowtype", windowtype, "Desktop");
   bindParameter("scale", scale, "2");
+  bindParameter("string_encode", m_string_encode, "off");
+  bindParameter("int_encode_quality", m_int_encode_quality, "75");
   
 
   
@@ -246,21 +259,10 @@ RTC::ReturnCode_t CapturePresentation::onExecute(RTC::UniqueId ec_id)
 	cvFlip(iplimage, flipimage);
 	cvResize(flipimage, resizeimage);
 
-
+	SetCameraImage(&m_image, resizeimage, m_string_encode, m_int_encode_quality);
 	
 
-	m_image.width = resizeimage->width;
-     m_image.height = resizeimage->height;
-
-	 
-	 
-	 
-
-
-	int len = resizeimage->nChannels * resizeimage->width * resizeimage->height;
 	
-	m_image.pixels.length(len);
-	memcpy((void *)&(m_image.pixels[0]),resizeimage->imageData,len);
 	m_imageOut.write();
   
   
