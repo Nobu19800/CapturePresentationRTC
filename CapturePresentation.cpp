@@ -55,6 +55,9 @@ CapturePresentation::CapturePresentation(RTC::Manager* manager)
     m_imageOut("image", m_image)
     // </rtc-template>
 {
+	iplimage = NULL;
+	flipimage = NULL;
+	resizeimage = NULL;
 }
 
 /*!
