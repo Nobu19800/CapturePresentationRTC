@@ -27,6 +27,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc_c.h>
 
+#include "DataBaseStub.h"
+
 
 
 // Service implementation headers
@@ -252,6 +254,21 @@ class CapturePresentation
   // CORBA Port declaration
   // <rtc-template block="corbaport_declare">
   
+  RTC::CorbaPort m_DataBasePort;
+  
+  // </rtc-template>
+
+  // Service declaration
+  // <rtc-template block="service_declare">
+  
+  // </rtc-template>
+
+  // Consumer declaration
+  // <rtc-template block="consumer_declare">
+  /*!
+   */
+  RTC::CorbaConsumer<DataBase::mDataBase> m_database;
+
   // </rtc-template>
 
   // Service declaration
@@ -281,9 +298,11 @@ class CapturePresentation
   
 
   std::string windowtype;	/**<　@brief  */
-  int scale;	/**<　@brief  */
+  float scale;	/**<　@brief  */
   std::string m_string_encode;	/**<　@brief  */
   int m_int_encode_quality;	/**<　@brief  */
+  std::string m_path;	/**<　@brief  */
+  std::string m_name;	/**<　@brief  */
   
 
   

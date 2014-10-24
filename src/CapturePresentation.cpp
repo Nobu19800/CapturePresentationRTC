@@ -27,10 +27,12 @@ static const char* capturepresentation_spec[] =
     "lang_type",         "compile",
     "conf.default.windowtype", "Desktop",
 	"conf.default.scale", "2",
+	"conf.default.path", "localhost\\CapturePresentation0",
+	"conf.default.name", "Presentation1",
     "conf.__widget__.windowtype", "radio",
-	"conf.__widget__.scale", "spin",
+	"conf.__widget__.scale", "slider",
     "conf.__constraints__.windowtype", "(Desktop, ActiveWindow)",
-	"conf.__constraints__.scale", "1<=x<=100",
+	"conf.__constraints__.scale", "1<=x<=200",
 	// Configuration variables
 	"conf.default.string_encode", "off",
 	"conf.default.int_encode_quality", "75",
@@ -52,7 +54,8 @@ static const char* capturepresentation_spec[] =
 CapturePresentation::CapturePresentation(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
-    m_imageOut("image", m_image)
+    m_imageOut("image", m_image),
+	m_DataBasePort("DataBase")
     // </rtc-template>
 {
 	iplimage = NULL;
@@ -77,6 +80,8 @@ RTC::ReturnCode_t CapturePresentation::onInitialize()
   
   // Set OutPort buffer
   addOutPort("image", m_imageOut);
+  m_DataBasePort.registerConsumer("database", "DataBase::mDataBase", m_database);
+  addPort(m_DataBasePort);
   
   
   // Set service provider to Ports
@@ -91,7 +96,8 @@ RTC::ReturnCode_t CapturePresentation::onInitialize()
   bindParameter("scale", scale, "2");
   bindParameter("string_encode", m_string_encode, "off");
   bindParameter("int_encode_quality", m_int_encode_quality, "75");
-  
+  bindParameter("path", m_path, "localhost\\CapturePresentation0");
+  bindParameter("name", m_name, "Presentation1");
 
   
 
@@ -225,7 +231,30 @@ RTC::ReturnCode_t CapturePresentation::onActivated(RTC::UniqueId ec_id)
 
 
 
-	
+	try
+	{
+		
+		m_database._ptr()->setConnection("Presentation","","");
+		
+		std::string sql = "INSERT INTO LIST(NAME, PATH, CAMERAIMAGE) VALUES(";
+		sql += "'";
+		sql += m_name;
+		sql += "', '";
+		sql += m_path;
+		sql += "', '";
+		sql += "image";
+		sql += "'";
+		sql += ")";
+
+		
+		
+		m_database._ptr()->executeUpdate("Presentation", sql.c_str());
+		
+	}
+	catch(...)
+	{
+
+	}
 	
 	
 	
@@ -239,6 +268,22 @@ RTC::ReturnCode_t CapturePresentation::onDeactivated(RTC::UniqueId ec_id)
 {
 	ExitWindowCapture();
 
+
+	try
+	{
+		
+		std::string sql = "DELETE FROM LIST WHERE NAME = ";
+		sql += "'";
+		sql += m_name;
+		sql += "'";
+		
+		m_database._ptr()->executeUpdate("Presentation", sql.c_str());
+		
+	}
+	catch(...)
+	{
+
+	}
 
 	
 
