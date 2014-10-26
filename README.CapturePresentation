@@ -10,7 +10,7 @@
 #   --module-desc='CapturePresentation Component' --module-version=0.1.0 --module-vendor=Miyamoto Nobuhiko 
 #   --module-category=TESTR --module-comp-type=STATIC 
 #   --module-act-type=PERIODIC --module-max-inst=1 
-#   --outport=image:RTC::CameraImage --outport=sound:RTC::TimedOctetSeq 
+#   --outport=image:RTC::CameraImage 
 #   --consumer-idl=C:\Users\Nobuhiko\Documents\GitHub\OOoBaseRTC\DataBase.idl 
 #   --consumer=DataBase:database:DataBase::mDataBase 
 
@@ -80,24 +80,6 @@ Lang Type:
 	Description: 
 	PortType: 
 	DataType:    RTC::CameraImage
-	MaxOut: 
-	[Data Elements]
-		Name:
-		Type:            
-		Number:          
-		Semantics:       
-		Unit:            
-		Frequency:       
-		Operation Cycle: 
-		RangeLow:
-		RangeHigh:
-		DefaultValue:
-
-	Name:        sound
-	PortNumber:  1
-	Description: 
-	PortType: 
-	DataType:    RTC::TimedOctetSeq
 	MaxOut: 
 	[Data Elements]
 		Name:
