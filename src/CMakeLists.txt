@@ -19,6 +19,7 @@ add_library(${PROJECT_NAME_LOWER} ${LIB_TYPE} ${comp_srcs} ${ALL_IDL_SRCS})
 set_source_files_properties(${ALL_IDL_SRCS} PROPERTIES GENERATED 1)
 add_dependencies(${PROJECT_NAME_LOWER} ALL_IDL_TGT)
 target_link_libraries(${PROJECT_NAME_LOWER} ${OPENRTM_LIBRARIES})
+target_link_libraries(${PROJECT_NAME_LOWER} ${OpenCV_LIBS})
 
 add_executable(${PROJECT_NAME_LOWER}comp ${standalone_srcs})
 target_link_libraries(${PROJECT_NAME_LOWER}comp ${PROJECT_NAME_LOWER})
