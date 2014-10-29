@@ -20,11 +20,11 @@ IplImage* GetCameraImage(RTC::CameraImage *ci)
 		buff.resize(len);
 		memcpy(&buff[0], &ci->pixels[0], sizeof(unsigned char)*len);
 		cv::Mat jpegimage = cv::imdecode(cv::Mat(buff),CV_LOAD_IMAGE_COLOR);
-		cv::Mat image;
-		cvtColor(jpegimage, image, CV_RGB2BGR);
+		//cv::Mat image;
+		//cvtColor(jpegimage, image, CV_RGB2BGR);
 				
 				
-		IplImage m_iplImage = image;
+		IplImage m_iplImage = jpegimage;
 
 		m_imageBuff = cvCreateImage(cvSize(ci->width, ci->height), IPL_DEPTH_8U, 3);
 		cvCopy( &m_iplImage, m_imageBuff);
