@@ -309,8 +309,8 @@ RTC::ReturnCode_t CapturePresentation::onExecute(RTC::UniqueId ec_id)
 
 	SetCameraImage(&m_image, resizeimage, m_string_encode, m_int_encode_quality);
 	
-
-	
+	//std::cout << m_imageOut.getName() << std::endl;
+	//m_imageOut.connectors()[0]->write(&m_image);
 	m_imageOut.write();
   
   
