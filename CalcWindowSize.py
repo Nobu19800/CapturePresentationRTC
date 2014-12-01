@@ -17,8 +17,10 @@ def main():
     ans = int((wx - w)/2)
 
     
-    print "左上の座標",ans,0
-    print "幅、高さ",w,wy
+    print u"左上の座標",ans,0
+    print u"幅、高さ",w,wy
+
+    sys.stdin.readline()
     
  
 if __name__ == "__main__":
