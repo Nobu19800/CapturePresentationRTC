@@ -25,24 +25,34 @@ static const char* capturepresentation_spec[] =
     "max_instance",      "1",
     "language",          "C++",
     "lang_type",         "compile",
-    "conf.default.windowtype", "Desktop",
-	"conf.default.scale", "2",
-	"conf.default.path", "localhost\\CapturePresentation0",
-	"conf.default.name", "Presentation1",
-    "conf.__widget__.windowtype", "radio",
-	"conf.__widget__.scale", "slider",
-    "conf.__constraints__.windowtype", "(Desktop, ActiveWindow)",
-	"conf.__constraints__.scale", "1<=x<=200",
 	// Configuration variables
 	"conf.default.string_encode", "off",
 	"conf.default.int_encode_quality", "75",
+	"conf.default.windowtype", "Desktop",
+	"conf.default.scale", "2",
+	"conf.default.path", "localhost\\CapturePresentation0",
+	"conf.default.name", "Presentation1",
+	"conf.default.screen_x", "0",
+	"conf.default.screen_y", "0",
+	"conf.default.screen_width", "1000",
+	"conf.default.screen_height", "500",
+	"conf.default.setRect", "0",
     // Widget
 	"conf.__widget__.string_encode", "radio",
 	"conf.__widget__.int_encode_quality", "spin",
+	"conf.__widget__.windowtype", "radio",
+	"conf.__widget__.scale", "slider",
+	"conf.__widget__.screen_x", "text",
+	"conf.__widget__.screen_y", "text",
+	"conf.__widget__.screen_width", "text",
+	"conf.__widget__.screen_height", "text",
+	"conf.__widget__.setRect", "radio",
     // Constraints
 	"conf.__constraints__.string_encode", "(off,jpeg,png)",
 	"conf.__constraints__.int_encode_quality", "1<=x<=100",
-
+	"conf.__constraints__.setRect", "(0,1)",
+	"conf.__constraints__.windowtype", "(Desktop, ActiveWindow)",
+	"conf.__constraints__.scale", "1<=x<=200",
     ""
   };
 // </rtc-template>
@@ -61,6 +71,7 @@ CapturePresentation::CapturePresentation(RTC::Manager* manager)
 	iplimage = NULL;
 	flipimage = NULL;
 	resizeimage = NULL;
+	roiimage = NULL;
 }
 
 /*!
@@ -98,6 +109,11 @@ RTC::ReturnCode_t CapturePresentation::onInitialize()
   bindParameter("int_encode_quality", m_int_encode_quality, "75");
   bindParameter("path", m_path, "localhost\\CapturePresentation0");
   bindParameter("name", m_name, "Presentation1");
+  bindParameter("screen_x", m_screen_x, "0");
+  bindParameter("screen_y", m_screen_y, "0");
+  bindParameter("screen_width", m_screen_width, "1000");
+  bindParameter("screen_height", m_screen_height, "500");
+  bindParameter("setRect", m_setRect, "0");
 
   
 
@@ -152,7 +168,7 @@ bool CapturePresentation::InitWindowCapture()
 
 	resizeimage = cvCreateImage(cvSize(width/scale, height/scale), IPL_DEPTH_8U, 3);
 
-	
+	//roiimage = cvCreateImage(cvSize(m_screen_width, m_screen_height), IPL_DEPTH_8U, 3);
 
  
 
@@ -208,6 +224,8 @@ bool CapturePresentation::ExitWindowCapture()
 	cvReleaseImage(&flipimage);
 	
 	cvReleaseImage(&resizeimage);
+
+	//cvReleaseImage(&roiimage);
 
 
 
@@ -306,15 +324,59 @@ RTC::ReturnCode_t CapturePresentation::onExecute(RTC::UniqueId ec_id)
 
 	cvFlip(iplimage, flipimage);
 	cvResize(flipimage, resizeimage);
+	
 
-	SetCameraImage(&m_image, resizeimage, m_string_encode, m_int_encode_quality);
+
+	if(m_setRect == 1)
+	{
+		int t_x = m_screen_x;
+		if(resizeimage->width < t_x)
+			t_x = resizeimage->width;
+
+		int t_y = m_screen_y;
+		if(resizeimage->height < t_y)
+			t_y = resizeimage->height;
+
+		int t_width = m_screen_width;
+		if(resizeimage->width < t_x+t_width)
+			t_width = resizeimage->width - t_x;
+
+		int t_height = m_screen_height;
+		if(resizeimage->height < t_y+t_height)
+			t_height = resizeimage->height - t_y;
+
+		//cvSetImageROI(resizeimage, cvRect(m_screen_x, m_screen_y, m_screen_width, m_screen_height));
+		//cvSetImageROI(resizeimage, cvRect(100, 150, 100, 100));
+		
+		//roiimage = cvCloneImage(resizeimage);
+		
+		cv::Mat bigImage = cv::cvarrToMat(resizeimage);
+		cv::Mat smallImage = cv::Mat(bigImage, cv::Rect(t_x,t_y,t_width,t_height));
+		IplImage m_iplImage = smallImage;
+		roiimage = cvCreateImage(cvSize(t_width, t_height), IPL_DEPTH_8U, 3);
+		cvCopy( &m_iplImage, roiimage);
+		
+		SetCameraImage(&m_image, roiimage, m_string_encode, m_int_encode_quality);
+		
+		cvReleaseImage(&roiimage);
+		//cvResetImageROI(resizeimage);
+	}
+	else
+	{
+		SetCameraImage(&m_image, resizeimage, m_string_encode, m_int_encode_quality);
+	}
+	
 	
 	//std::cout << m_imageOut.getName() << std::endl;
 	//m_imageOut.connectors()[0]->write(&m_image);
+	//coil::TimeValue t1(coil::gettimeofday());
+	
 	m_imageOut.write();
+	//coil::TimeValue t2(coil::gettimeofday());
+	//std::cout << t2 - t1 << std::endl;
   
-  
-
+	
+		
 
 	
 
