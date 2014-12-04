@@ -303,6 +303,11 @@ class CapturePresentation
   int m_int_encode_quality;	/**<　@brief  */
   std::string m_path;	/**<　@brief  */
   std::string m_name;	/**<　@brief  */
+  int m_screen_x;	/**<　@brief  */
+  int m_screen_y;	/**<　@brief  */
+  int m_screen_width;	/**<　@brief  */
+  int m_screen_height;	/**<　@brief  */
+  int m_setRect;
   
 
   
@@ -314,6 +319,8 @@ class CapturePresentation
   IplImage *flipimage;
 
   IplImage *resizeimage;
+
+  IplImage *roiimage;
 
   
 

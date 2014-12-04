@@ -11,8 +11,6 @@
 #   --module-category=TESTR --module-comp-type=STATIC 
 #   --module-act-type=PERIODIC --module-max-inst=1 
 #   --outport=image:RTC::CameraImage 
-#   --consumer-idl=C:\Users\Nobuhiko\Documents\GitHub\OOoBaseRTC\DataBase.idl 
-#   --consumer=DataBase:database:DataBase::mDataBase 
 
 
 ======================================================================
@@ -101,18 +99,6 @@ Lang Type:
     Service Port definition
 ======================================================================
 # <rtc-template block="serviceport">
-	PortName:    DataBase
-	Description: 
-	Interface:   
-		[Service Consumer Interfaces]
-		Name:          database
-		Type:          DataBase::mDataBase
-		Description:   
-		Argument:      
-		Return Value:  
-		Exception:     
-		PreCondition:  
-		PostCondition: 
 # </rtc-template> 
 
 ======================================================================
