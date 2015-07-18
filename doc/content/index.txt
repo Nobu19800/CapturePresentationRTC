@@ -116,7 +116,7 @@ The ports provided by the component are described below:
 =============== =========== ============================== =======
 Name            Type        Data type                      Purpose
 =============== =========== ============================== =======
-image           OutPort     RTC::CameraImage               
+database        ServicePort DataBase::mDataBase            
 =============== =========== ============================== =======
 
 Examples

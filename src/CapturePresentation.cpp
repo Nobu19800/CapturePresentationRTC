@@ -19,7 +19,7 @@ static const char* capturepresentation_spec[] =
     "description",       "CapturePresentation Component",
     "version",           "0.1.0",
     "vendor",            "Miyamoto Nobuhiko",
-    "category",          "TESTR",
+    "category",          "Presentation",
     "activity_type",     "PERIODIC",
     "kind",              "DataFlowComponent",
     "max_instance",      "1",

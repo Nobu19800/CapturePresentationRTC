@@ -108,7 +108,7 @@ CapturePresentationは ``CapturePresentationComp`` を実行（ ``${prefix}/comp
 =============== =========== ============================== ====
 ポート名        ポート型    データ型                       意味
 =============== =========== ============================== ====
-image           OutPort     RTC::CameraImage               
+database        ServicePort DataBase::mDataBase            
 =============== =========== ============================== ====
 
 例

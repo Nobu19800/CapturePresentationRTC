@@ -1,0 +1,37 @@
+typedef sequence<string> StringSeq;
+
+
+
+module DataBase {
+	interface mDataBase
+	{
+		boolean setConnection(in string name, in string usr_name, in string passward);
+		boolean executeQuery(in string name, in string con, in string oSQL);
+		boolean ResultSetNext(in string name);
+		boolean ResultSetPrevious(in string name);
+		boolean ResultSetFirst(in string name);
+		boolean ResultSetLast(in string name);
+		boolean ResultSetBeforeFirst(in string name);
+		boolean ResultSetAfterLast(in string name);
+		octet getByte(in string name, in short num);
+		short getShort(in string name, in short num);
+		long getLong(in string name, in short num);
+		float getFloat(in string name, in short num);
+		double getDouble(in string name, in short num);
+		boolean getBoolean(in string name, in short num);
+		string getString(in string name, in short num);
+
+		StringSeq getDataBaseNames();
+		StringSeq getDataTableNames(in string con);
+		boolean executeUpdate(in string con, in string oSQL);
+		short getRow(in string name);
+
+		boolean AddTable(in string name, in string con, in StringSeq cols, in StringSeq dt);
+		boolean RemoveTable(in string name, in string con);
+		boolean AddDataBase(in string name);
+		boolean RemoveDataBase(in string name);
+		
+		
+		
+	};
+};
